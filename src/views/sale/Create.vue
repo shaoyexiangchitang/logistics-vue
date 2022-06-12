@@ -9,11 +9,16 @@
       <div v-if="current === 0">
         <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
           <a-form-model-item label="公司名称" required>
-            <a-input v-model="form.company"/>
+            <a-select v-model="selectCompanyIndex" placeholder="请选择公司">
+              <a-select-option :value="index" v-for="(item, index) in companyList" :key="index">
+                {{ item.name }}
+              </a-select-option>
+            </a-select>
+            <!-- <a-input v-model="form.company"/> -->
           </a-form-model-item>
-          <a-form-model-item label="打款账号" required>
+          <!-- <a-form-model-item label="打款账号" required>
             <a-input v-model="form.number"/>
-          </a-form-model-item>
+          </a-form-model-item> -->
           <a-form-model-item label="售出商品" required>
             <a-select v-model="selectIndex" placeholder="请选择商品">
               <a-select-option :value="index" v-for="(item, index) in commodityList" :key="index">
@@ -24,9 +29,9 @@
           <a-form-model-item label="商品数量" required>
             <a-input-number v-model="form.count"/>
           </a-form-model-item>
-          <a-form-model-item label="预留电话" required>
+          <!-- <a-form-model-item label="预留电话" required>
             <a-input v-model="form.phone"/>
-          </a-form-model-item>
+          </a-form-model-item> -->
           <a-form-model-item label="备注信息" required>
             <a-input v-model="form.description" type="textarea" :rows="4"/>
           </a-form-model-item>
@@ -40,9 +45,9 @@
       <div v-if="current === 1" class="check">
         <p>收货公司： {{ form.company }}</p>
         <p>打款账号： {{ form.number }}</p>
+        <p>预留电话： {{ form.phone }}</p>
         <p>售出商品： {{ form.commodity }}</p>
         <p>商品数量： {{ form.count }}</p>
-        <p>预留电话： {{ form.phone }}</p>
         <p>备注信息： {{ form.description }}</p>
         <a-divider orientation="right">
           金额总计： {{ form.price }}
@@ -75,6 +80,7 @@
 <script>
 import {FindAllCommodity} from "../../api/commodity";
 import {SaveSale} from "../../api/sale";
+import {FindAllCompany} from "../../api/company";
 
 export default {
 
@@ -84,9 +90,11 @@ export default {
       labelCol: {span: 6},
       wrapperCol: {span: 12},
       current: 0,
+      selectCompanyIndex: 0,
       selectIndex: 0,
       drivers: [],
       vehicles: [],
+      companyList: [],
       commodityList: [],
       form: {
         company: '',
@@ -103,14 +111,22 @@ export default {
   mounted() {
     FindAllCommodity().then((res) => {
       if (res.status) this.commodityList = res.data
+    });
+    
+    FindAllCompany().then((res) => {
+      if (res.status) this.companyList = res.data
     })
   },
 
   methods: {
     next() {
       let commodity = this.commodityList[this.selectIndex]
+      let company = this.companyList[this.selectCompanyIndex]
       this.form.price = this.form.count * commodity.price
       this.form.commodity = commodity.name
+      this.form.company = company.name
+      this.form.number = company.number
+      this.form.phone = company.phone
       console.log(this.form)
       this.current = 1
     },
