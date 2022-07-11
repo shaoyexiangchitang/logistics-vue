@@ -51,10 +51,10 @@
     >
       <a-form-model :model="form">
         <a-form-model-item label="姓名">
-          <a-input v-model="form.name" placeholder="请输入司机姓名"/>
+          <a-input v-model="form.name" placeholder="请输姓名"/>
         </a-form-model-item>
         <a-form-model-item label="身份证号">
-          <a-input v-model="form.idCard" placeholder="请输入司机身份证信息"/>
+          <a-input v-model="form.idCard" placeholder="请输入身份证信息"/>
         </a-form-model-item>
         <a-form-model-item label="联系方式">
           <a-input v-model="form.phone" placeholder="请输入手机号码"/>

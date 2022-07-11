@@ -37,6 +37,14 @@ export function SaveAdmin(data) {
     })
 }
 
+export function UpdateAdmin(data) {
+    return service({
+        url: '/admin/update',
+        method: 'post',
+        data: data
+    })
+}
+
 export function AdminSendEmail(email) {
     return service({
         url: '/admin/sendEmail?email=' + email,

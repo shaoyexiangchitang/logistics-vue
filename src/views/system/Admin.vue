@@ -105,7 +105,7 @@
   </div>
 </template>
 <script>
-import {DeleteAdmin, FindAllAdmin, SaveAdmin} from "../../api/admin";
+import {DeleteAdmin, FindAllAdmin,UpdateAdmin, SaveAdmin} from "../../api/admin";
 import {FindAllRole} from "../../api/role";
 
 const columns = [
@@ -174,7 +174,7 @@ export default {
     },
 
     submit() {
-      SaveAdmin(this.selectAdmin).then((res) => {
+      UpdateAdmin(this.selectAdmin).then((res) => {
         if (res.status) this.$message.success("操作员信息更新成功")
         this.addVisible = false
         this.emailVisible = false
