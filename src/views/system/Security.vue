@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {SaveAdmin} from "@/api/admin";
+import {SaveAdmin,UpdateAdmin} from "@/api/admin";
 
 export default {
   name: "Me",
@@ -78,7 +78,7 @@ export default {
     },
 
     submit() {
-      SaveAdmin(this.admin).then((res) => {
+      UpdateAdmin(this.admin).then((res) => {
         if (res.status) {
           this.$message.success("账号信息修改成功")
           this.$store.commit('user/saveLoginUser', res.data)
