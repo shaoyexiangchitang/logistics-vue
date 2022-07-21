@@ -49,14 +49,14 @@
         @ok="submitForm"
         @cancel="visible = false"
     >
-      <a-form-model :model="form">
+      <a-form-model :rules="rules" :model="form">
         <a-form-model-item label="姓名">
           <a-input v-model="form.name" placeholder="请输入司机姓名"/>
         </a-form-model-item>
-        <a-form-model-item label="身份证号">
+        <a-form-model-item label="身份证号" prop="idCard">
           <a-input v-model="form.idCard" placeholder="请输入司机身份证信息"/>
         </a-form-model-item>
-        <a-form-model-item label="联系方式">
+        <a-form-model-item label="联系方式" prop="phone">
           <a-input v-model="form.phone" placeholder="请输入手机号码"/>
         </a-form-model-item>
         <a-form-item label="驾照信息">
@@ -148,6 +148,23 @@ export default {
       data: [],
       columns,
       editingKey: '',
+      rules: {
+        phone: [
+          { required: true, message: "请输入联系方式", trigger: "blur" },
+          { min: 11, max: 11, message: "请输入11位手机号码", trigger: "blur" },
+          {
+            pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/,
+            //pattern: /^1[3456789]\d{9}$/,
+            message: "请输入正确的手机号码",
+          },
+        ],
+        idCard: [
+          {
+            pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
+            message: "请输入正确的身份证号码",
+          },
+        ],
+      },
     };
   },
   mounted() {

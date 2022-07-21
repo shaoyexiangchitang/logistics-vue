@@ -91,7 +91,9 @@ export default {
 
     submit() {
       SaveVehicle(this.form).then((res) => {
-        if (res.status) this.$message.success("添加成功")
+        // if (res.status) this.$message.success("添加成功")
+        if (res.status && res.data!=null) this.$message.success("添加成功")
+        if (res.status && res.data==null) this.$message.error("车牌重复！")
         this.visible = false
         this.loadData()
       })
